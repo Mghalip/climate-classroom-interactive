@@ -246,6 +246,7 @@
   </div>
   
   <button class="btn btn-primary" onclick="resetPoll()" style="margin-top: 20px;">🔄 Reset Poll</button>
+  <button class="btn btn-danger" onclick="teacherResetPollAndVotes()" style="margin-top: 20px;">🧹 Teacher Reset Poll Data</button>
 </div>
 
 <!-- ============================================ -->
@@ -698,6 +699,7 @@
       Waiting for challenge results...
     </div>
     <button class="btn btn-primary" onclick="resetQuiz()">🔄 Restart Challenge</button>
+    <button class="btn btn-danger" onclick="teacherResetLeaderboard()">🧹 Teacher Reset Leaderboard</button>
   </div>
 </div>
 
@@ -793,7 +795,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, onSnapshot, increment,
-  collection, addDoc, serverTimestamp, query, orderBy, limit
+  collection, addDoc, serverTimestamp, query, orderBy, limit, getDocs, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -815,6 +817,7 @@ const SUBMISSIONS = collection(db, 'classrooms', CLASSROOM_ID, 'submissions');
 
 let firebaseReady = false;
 let signedInUid = null;
+const TEACHER_PASSCODE = 'climate2026';
 
 async function initFirebase() {
   try {
@@ -1111,9 +1114,57 @@ async function addDemoDot() {
 window.addDemoDot = addDemoDot;
 
 async function clearDots() {
-  alert('To avoid accidentally deleting class data, this version does not include one-click database clearing. I can add a teacher-only reset if you want.');
+  classData = [];
+  renderDotplot();
+  document.getElementById('class-data').innerHTML = '<p>Class data will appear here after submissions are added.</p>';
 }
 window.clearDots = clearDots;
+
+async function deleteCollectionDocs(colRef, pageSize = 200) {
+  while (true) {
+    const snap = await getDocs(query(colRef, limit(pageSize)));
+    if (snap.empty) break;
+    for (const d of snap.docs) {
+      await deleteDoc(d.ref);
+    }
+    if (snap.size < pageSize) break;
+  }
+}
+
+function confirmTeacherAction(actionName) {
+  const code = prompt('Enter teacher passcode to ' + actionName + ':');
+  return code === TEACHER_PASSCODE;
+}
+
+async function teacherResetClassData() {
+  if (!firebaseReady) return alert('Firebase is not connected yet.');
+  if (!confirmTeacherAction('reset class data')) return alert('Incorrect passcode.');
+  await deleteCollectionDocs(SUBMISSIONS);
+  classData = [];
+  renderDotplot();
+  renderClassSubmissionSummary([]);
+  alert('Class data has been cleared.');
+}
+window.teacherResetClassData = teacherResetClassData;
+
+async function teacherResetPollAndVotes() {
+  if (!firebaseReady) return alert('Firebase is not connected yet.');
+  if (!confirmTeacherAction('reset poll data')) return alert('Incorrect passcode.');
+  await setDoc(POLL_DOC, { up: 0, same: 0, down: 0, updatedAt: serverTimestamp() });
+  const pollVoters = collection(db, 'classrooms', CLASSROOM_ID, 'pollVoters');
+  await deleteCollectionDocs(pollVoters);
+  renderPoll();
+  alert('Poll totals have been cleared.');
+}
+window.teacherResetPollAndVotes = teacherResetPollAndVotes;
+
+async function teacherResetLeaderboard() {
+  if (!firebaseReady) return alert('Firebase is not connected yet.');
+  if (!confirmTeacherAction('reset leaderboard')) return alert('Incorrect passcode.');
+  await deleteCollectionDocs(TEAM_RESULTS);
+  alert('Leaderboard data has been cleared.');
+}
+window.teacherResetLeaderboard = teacherResetLeaderboard;
 
 window.addEventListener('resize', () => { if (classData.length) renderDotplot(); });
 
