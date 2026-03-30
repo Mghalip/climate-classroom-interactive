@@ -582,7 +582,7 @@
   
   <div class="card purple" style="margin-bottom: 12px;">
     <h3>Q3: How far is our sample mean from 0?</h3>
-    <p style="font-size: 1em;">均值 x̄ = <span id="discuss-mean">_____</span>，Is that distance <strong>large enough</strong> to reject H₀?</p>
+    <p style="font-size: 1em;">Our sample mean is x̄ = <span id="discuss-mean">_____</span>，Is that distance <strong>large enough</strong> to reject H₀?</p>
   </div>
   
   <div class="card red">
@@ -601,14 +601,14 @@
   <div class="team-setup">
     <div class="team-input blue">
       <h3 style="color: #3b82f6;">🔵 Team A</h3>
-      <input type="text" id="team-a-name" placeholder="Enter team name..." style="width: 100%; margin: 10px 0;">
+      <input type="text" id="team-a-name" placeholder="Enter a team name..." style="width: 100%; margin: 10px 0;">
       <div class="score-display score-team-a" id="score-a-display">0</div>
       <p style="color: #94a3b8; font-size: 0.85em;">Current Score</p>
     </div>
     
     <div class="team-input red">
       <h3 style="color: #ef4444;">🔴 Team B</h3>
-      <input type="text" id="team-b-name" placeholder="Enter team name..." style="width: 100%; margin: 10px 0;">
+      <input type="text" id="team-b-name" placeholder="Enter a team name..." style="width: 100%; margin: 10px 0;">
       <div class="score-display score-team-b" id="score-b-display">0</div>
       <p style="color: #94a3b8; font-size: 0.85em;">Current Score</p>
     </div>
@@ -695,7 +695,7 @@
   <div class="card" style="margin-top: 20px; text-align: center;">
     <h2 style="color: #f59e0b;">🎉 获胜小组</h2>
     <div id="winner-display" style="font-size: 2em; margin: 20px 0; color: #fbbf24;">
-      Waiting for results...
+      Waiting for challenge results...
     </div>
     <button class="btn btn-primary" onclick="resetQuiz()">🔄 Restart Challenge</button>
   </div>
@@ -1058,12 +1058,12 @@ function renderClassSubmissionSummary(rows) {
     return;
   }
   const latest = rows.slice(0, 8).map(r => `<tr><td>${r.station || ''}</td><td>${r.temp1 ?? ''}</td><td>${r.temp2 ?? ''}</td><td style="color:${r.diff >= 0 ? '#ef4444' : '#3b82f6'}">${r.diff ?? ''}</td></tr>`).join('');
-  box.innerHTML = `<p style="margin-bottom:10px;color:#94a3b8;">全班Submitted ${rows.length} data points (showing the latest 8).</p>
+  box.innerHTML = `<p style="margin-bottom:10px;color:#94a3b8;">ClassSubmitted ${rows.length} data points (showing the latest 8).</p>
   <table class="data-table"><thead><tr><th>Station</th><th>Temp₁</th><th>Temp₂</th><th>Diff</th></tr></thead><tbody>${latest}</tbody></table>`;
 }
 
 // ============================================
-// 🔬 点图Visualization
+// 🔬 DotplotVisualization
 // ============================================
 let classData = [];
 
@@ -1147,12 +1147,42 @@ window.addEventListener('resize', () => { if (classData.length) renderDotplot();
 // 🎮 Team Challenge题目
 // ============================================
 const questions = [
-  { q: '30个成人，每人报告了家中邮箱的垃圾邮件数量和收件箱的垃圾邮件数量。研究者想知道两种垃圾邮件数量是否有显著差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一人报告了两种数据 → 数据天然成对。Key words：Each adult reported... as well as...' },
-  { q: '西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想Compare两个地区的差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! These are two completely independent groups, so there is no pairing.' },
-  { q: '15部手机，在宾州和弗州两个偏远地区分别测量了信号强度。研究者想知道弗州信号是否更弱。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! The same set of phones was measured in two locations, so each phone contributes a pair of values.' },
-  { q: '在气候变化研究中，我们Compare同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？', options: ['🔗 Paired data', '📊 Independent data'], answer: 0, explain: '✅ Paired! It is the same location measured in two different time periods, so the paired design controls for geography.' },
-  { q: '一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末Compare成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! These are two different groups of students.' },
-  { q: '10名运动员分别在早上和晚上跑100米，记录成绩。教练想知道时间段是否影响成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! The same athlete runs once in each time period.' }
+  {
+    q: "Thirty adults each reported the number of spam emails in their inbox and the number of junk emails in their mailbox. A researcher wants to know whether the two counts are significantly different.",
+    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
+    answer: 0,
+    explain: "✅ Paired! The same person reported both values, so the data are naturally paired."
+  },
+  {
+    q: "A researcher surveys 100 people on the West Coast and 100 people on the East Coast about the number of spam calls they received in the past week. The goal is to compare the two regions.",
+    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
+    answer: 1,
+    explain: "✅ Two-sample! These are two independent groups of people, so there is no pairing."
+  },
+  {
+    q: "Fifteen cell phones are tested for signal strength in rural Pennsylvania and rural Virginia. The researcher wants to know whether signals are weaker in Virginia.",
+    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
+    answer: 0,
+    explain: "✅ Paired! The same phones are measured in both locations, so each phone contributes a pair of values."
+  },
+  {
+    q: "In our climate change investigation, we compare the temperature at the same location during 1900–1940 and 1960–2000. What kind of data is this?",
+    options: ["🔗 Paired data", "📊 Independent data"],
+    answer: 0,
+    explain: "✅ Paired! The same location is measured in two different time periods."
+  },
+  {
+    q: "Twenty students are randomly assigned to use a new textbook, and another twenty students use a traditional textbook. At the end of the term, the teacher compares their test scores.",
+    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
+    answer: 1,
+    explain: "✅ Two-sample! These are two different groups of students."
+  },
+  {
+    q: "Ten athletes each run the 100-meter dash once in the morning and once in the evening. The coach wants to know whether time of day affects performance.",
+    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
+    answer: 0,
+    explain: "✅ Paired! The same athlete is measured under two conditions."
+  }
 ];
 
 let currentQ = 0;
@@ -1326,7 +1356,7 @@ async function endQuiz() {
   document.getElementById('winner-display').innerHTML = winnerText;
 
   document.getElementById('quiz-card').innerHTML =
-    '<h2 style="text-align:center; font-size:1.8em;">🎉 挑战结束！</h2>' +
+    '<h2 style="text-align:center; font-size:1.8em;">🎉 Challenge Complete!</h2>' +
     '<div style="text-align:center; font-size:1.3em; margin:15px 0;">' +
     '🔵 ' + teamAName + ': ' + scoreA + ' 分 (' + accA + '%)<br>' +
     '🔴 ' + teamBName + ': ' + scoreB + ' 分 (' + accB + '%)</div>' +
@@ -1362,7 +1392,7 @@ function resetQuiz() {
   document.getElementById('team-b-name').value = '';
   document.getElementById('score-a-display').textContent = '0';
   document.getElementById('score-b-display').textContent = '0';
-  document.getElementById('winner-display').textContent = 'Waiting for results...';
+  document.getElementById('winner-display').textContent = 'Waiting for challenge results...';
 }
 window.resetQuiz = resetQuiz;
 
