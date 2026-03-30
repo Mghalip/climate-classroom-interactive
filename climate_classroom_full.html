@@ -780,7 +780,85 @@
   <p style="margin-top: 30px; color: #475569;">Thank you! 🌍📊✨</p>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, increment,
+  collection, addDoc, serverTimestamp, query, orderBy, limit, runTransaction
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAtZBTTDXoMZcvyRmfJmh80M-F0VeRfNK0",
+  authDomain: "climate-classroom-interactive.firebaseapp.com",
+  projectId: "climate-classroom-interactive",
+  storageBucket: "climate-classroom-interactive.firebasestorage.app",
+  messagingSenderId: "611467838855",
+  appId: "1:611467838855:web:4b27a54faed9417bbd3f22"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const CLASSROOM_ID = 'default-class';
+const POLL_DOC = doc(db, 'classrooms', CLASSROOM_ID, 'meta', 'poll');
+const TEAM_RESULTS = collection(db, 'classrooms', CLASSROOM_ID, 'teamResults');
+const SUBMISSIONS = collection(db, 'classrooms', CLASSROOM_ID, 'submissions');
+
+let firebaseReady = false;
+let signedInUid = null;
+
+async function initFirebase() {
+  try {
+    const cred = await signInAnonymously(auth);
+    signedInUid = cred.user.uid;
+    firebaseReady = true;
+    ensurePollDoc();
+    wireRealtimeListeners();
+    console.log('Firebase ready:', signedInUid);
+  } catch (err) {
+    console.error('Firebase init failed:', err);
+    alert('Firebase 连接失败。请确认 Firestore Database 和 Anonymous Authentication 已开启。');
+  }
+}
+
+async function ensurePollDoc() {
+  const snap = await getDoc(POLL_DOC);
+  if (!snap.exists()) {
+    await setDoc(POLL_DOC, { up: 0, same: 0, down: 0, updatedAt: serverTimestamp() });
+  }
+}
+
+function wireRealtimeListeners() {
+  onSnapshot(POLL_DOC, (snap) => {
+    if (!snap.exists()) return;
+    votes = snap.data();
+    renderPoll();
+  });
+
+  onSnapshot(query(SUBMISSIONS, orderBy('createdAt', 'desc'), limit(300)), (snap) => {
+    classData = [];
+    const rows = [];
+    snap.forEach(docSnap => {
+      const d = docSnap.data();
+      if (typeof d.diff === 'number' && !Number.isNaN(d.diff)) classData.push(d.diff);
+      rows.push(d);
+    });
+    renderDotplot();
+    renderClassSubmissionSummary(rows);
+  });
+
+  onSnapshot(query(TEAM_RESULTS, orderBy('score', 'desc'), limit(20)), (snap) => {
+    const teams = [];
+    snap.forEach(docSnap => teams.push({ id: docSnap.id, ...docSnap.data() }));
+    renderLeaderboardFromFirebase(teams);
+  });
+}
+
+function safeTeamId(name) {
+  return name.toLowerCase().trim().replace(/[^a-z0-9一-龥_-]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'team';
+}
+
 // ============================================
 // 幻灯片导航
 // ============================================
@@ -794,19 +872,21 @@ function updateSlide() {
   document.getElementById('progress').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
 }
 
-function nextSlide() { 
-  if (currentSlide < totalSlides - 1) { 
-    currentSlide++; 
-    updateSlide(); 
-  } 
+function nextSlide() {
+  if (currentSlide < totalSlides - 1) {
+    currentSlide++;
+    updateSlide();
+  }
 }
 
-function prevSlide() { 
-  if (currentSlide > 0) { 
-    currentSlide--; 
-    updateSlide(); 
-  } 
+function prevSlide() {
+  if (currentSlide > 0) {
+    currentSlide--;
+    updateSlide();
+  }
 }
+window.nextSlide = nextSlide;
+window.prevSlide = prevSlide;
 
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
@@ -817,7 +897,6 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// 触摸支持
 let touchStartX = 0;
 document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
 document.addEventListener('touchend', e => {
@@ -830,31 +909,35 @@ document.addEventListener('touchend', e => {
 // ============================================
 let votes = { up: 0, same: 0, down: 0 };
 
-function vote(choice) {
-  votes[choice]++;
-  const total = votes.up + votes.same + votes.down;
-  document.getElementById('poll-results').style.display = 'block';
+function renderPoll() {
+  const total = (votes.up || 0) + (votes.same || 0) + (votes.down || 0);
+  document.getElementById('poll-results').style.display = total > 0 ? 'block' : 'none';
   document.getElementById('total-votes').textContent = total;
-  
   ['up', 'same', 'down'].forEach(k => {
-    const pct = total > 0 ? Math.round((votes[k] / total) * 100) : 0;
+    const pct = total > 0 ? Math.round(((votes[k] || 0) / total) * 100) : 0;
     const bar = document.getElementById('bar-' + k);
-    bar.style.width = Math.max(pct, 5) + '%';
-    bar.textContent = votes[k] + ' (' + pct + '%)';
+    bar.style.width = total > 0 ? Math.max(pct, 5) + '%' : '0%';
+    bar.textContent = (votes[k] || 0) + ' (' + pct + '%)';
   });
-  
-  emojiRain(choice === 'up' ? '🔥' : choice === 'down' ? '❄️' : '➡️');
 }
 
-function resetPoll() {
-  votes = { up: 0, same: 0, down: 0 };
-  document.getElementById('poll-results').style.display = 'none';
-  ['up', 'same', 'down'].forEach(k => {
-    const bar = document.getElementById('bar-' + k);
-    bar.style.width = '0%';
-    bar.textContent = '0';
+async function vote(choice) {
+  if (!firebaseReady) return alert('Firebase 还没连上，请稍等 1-2 秒再试。');
+  await runTransaction(db, async (tx) => {
+    const snap = await tx.get(POLL_DOC);
+    const data = snap.exists() ? snap.data() : { up: 0, same: 0, down: 0 };
+    data[choice] = (data[choice] || 0) + 1;
+    tx.set(POLL_DOC, { ...data, updatedAt: serverTimestamp() }, { merge: true });
   });
+  emojiRain(choice === 'up' ? '🔥' : choice === 'down' ? '❄️' : '➡️');
 }
+window.vote = vote;
+
+async function resetPoll() {
+  if (!firebaseReady) return;
+  await setDoc(POLL_DOC, { up: 0, same: 0, down: 0, updatedAt: serverTimestamp() });
+}
+window.resetPoll = resetPoll;
 
 // ============================================
 // 🔬 数据收集实验
@@ -869,6 +952,7 @@ function generateCoords() {
   document.getElementById('coords-result').style.display = 'block';
   emojiRain('📍');
 }
+window.generateCoords = generateCoords;
 
 function calcDiff(row) {
   const t1 = parseFloat(document.getElementById('temp1-' + row).value);
@@ -878,14 +962,13 @@ function calcDiff(row) {
     const diff = (t2 - t1).toFixed(2);
     el.textContent = diff;
     el.style.color = diff >= 0 ? '#ef4444' : '#3b82f6';
-    
-    // 更新讨论页面的均值显示
     document.getElementById('discuss-mean').textContent = diff;
     document.getElementById('conclusion-mean').textContent = diff;
   } else {
     el.textContent = '—';
   }
 }
+window.calcDiff = calcDiff;
 
 function addDataRow() {
   dataRowCount++;
@@ -896,10 +979,45 @@ function addDataRow() {
     '<td id="diff-' + dataRowCount + '" style="color: #f59e0b; font-weight: bold; font-size: 1.1em;">—</td>';
   document.getElementById('data-body').appendChild(tr);
 }
+window.addDataRow = addDataRow;
 
-function submitToClass() {
+async function submitToClass() {
+  if (!firebaseReady) return alert('Firebase 还没连上。');
+  const teamName = (document.getElementById('team-a-name')?.value || '').trim();
+  let submitted = 0;
+  for (let row = 1; row <= dataRowCount; row++) {
+    const station = document.getElementById('loc-' + row)?.value?.trim();
+    const t1 = parseFloat(document.getElementById('temp1-' + row)?.value);
+    const t2 = parseFloat(document.getElementById('temp2-' + row)?.value);
+    if (!station || Number.isNaN(t1) || Number.isNaN(t2)) continue;
+    const diff = +(t2 - t1).toFixed(2);
+    await addDoc(SUBMISSIONS, {
+      station,
+      temp1: t1,
+      temp2: t2,
+      diff,
+      teamName: teamName || null,
+      userId: signedInUid,
+      createdAt: serverTimestamp()
+    });
+    submitted++;
+  }
+  if (!submitted) return alert('请至少填写一行完整数据再提交。');
   emojiRain('📤');
-  alert('数据已记录！请继续收集更多数据点。');
+  alert('已提交 ' + submitted + ' 条数据到全班实时数据库。');
+}
+window.submitToClass = submitToClass;
+
+function renderClassSubmissionSummary(rows) {
+  const box = document.getElementById('class-data');
+  if (!box) return;
+  if (!rows.length) {
+    box.innerHTML = '<p>提交数据后，班级数据将在这里显示</p>';
+    return;
+  }
+  const latest = rows.slice(0, 8).map(r => `<tr><td>${r.station || ''}</td><td>${r.temp1 ?? ''}</td><td>${r.temp2 ?? ''}</td><td style="color:${r.diff >= 0 ? '#ef4444' : '#3b82f6'}">${r.diff ?? ''}</td></tr>`).join('');
+  box.innerHTML = `<p style="margin-bottom:10px;color:#94a3b8;">全班已提交 ${rows.length} 条数据（显示最新 8 条）</p>
+  <table class="data-table"><thead><tr><th>Station</th><th>Temp₁</th><th>Temp₂</th><th>Diff</th></tr></thead><tbody>${latest}</tbody></table>`;
 }
 
 // ============================================
@@ -913,13 +1031,13 @@ function renderDotplot() {
   container.innerHTML = '';
   const min = -2, max = 3, range = max - min;
   const width = container.parentElement.offsetWidth - 60;
-  
+
   const stacks = {};
   classData.forEach(val => {
     const bucket = Math.round(val * 2) / 2;
     if (!stacks[bucket]) stacks[bucket] = 0;
     stacks[bucket]++;
-    
+
     const dot = document.createElement('div');
     dot.className = 'dot';
     dot.style.left = (40 + ((val - min) / range) * width) + 'px';
@@ -928,13 +1046,12 @@ function renderDotplot() {
     dot.title = val.toFixed(2) + '°C';
     container.appendChild(dot);
   });
-  
-  // 零线
+
   const zeroLine = document.createElement('div');
   zeroLine.style.cssText = 'position:absolute; bottom:25px; width:2px; height:140px; background:#f59e0b; opacity:0.5;';
   zeroLine.style.left = (40 + ((0 - min) / range) * width) + 'px';
   container.appendChild(zeroLine);
-  
+
   updateStats();
 }
 
@@ -947,84 +1064,53 @@ function updateStats() {
   }
   const n = classData.length;
   const mean = classData.reduce((a, b) => a + b, 0) / n;
-  const variance = classData.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b, 0) / (n - 1);
+  const variance = n > 1 ? classData.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b, 0) / (n - 1) : 0;
   const sd = Math.sqrt(variance);
-  
+
   document.getElementById('stat-mean').textContent = mean.toFixed(2);
   document.getElementById('stat-mean').style.color = mean >= 0 ? '#ef4444' : '#3b82f6';
   document.getElementById('stat-sd').textContent = sd.toFixed(2);
   document.getElementById('stat-n').textContent = n;
-  
-  // 更新讨论页面
   document.getElementById('discuss-mean').textContent = mean.toFixed(2);
   document.getElementById('conclusion-mean').textContent = mean.toFixed(2);
 }
 
 function generateDemoDots() {
   classData = [];
-  for (let i = 0; i < 15; i++) {
-    classData.push(parseFloat((Math.random() * 2 - 0.5).toFixed(2)));
-  }
+  for (let i = 0; i < 15; i++) classData.push(parseFloat((Math.random() * 2 - 0.5).toFixed(2)));
   renderDotplot();
   emojiRain('📊');
 }
+window.generateDemoDots = generateDemoDots;
 
-function addDemoDot() {
+async function addDemoDot() {
+  if (!firebaseReady) return alert('Firebase 还没连上。');
   const val = parseFloat((Math.random() * 2 - 0.5).toFixed(2));
-  classData.push(val);
-  renderDotplot();
+  await addDoc(SUBMISSIONS, {
+    station: 'Demo', temp1: 0, temp2: val, diff: val,
+    teamName: 'Demo', userId: signedInUid, createdAt: serverTimestamp()
+  });
   emojiRain('📊');
 }
+window.addDemoDot = addDemoDot;
 
-function clearDots() {
-  classData = [];
-  renderDotplot();
+async function clearDots() {
+  alert('为避免误删全班数据，当前版本不提供一键清空数据库。需要的话我可以再加老师口令清空功能。');
 }
+window.clearDots = clearDots;
 
-window.addEventListener('resize', () => { 
-  if (classData.length) renderDotplot(); 
-});
+window.addEventListener('resize', () => { if (classData.length) renderDotplot(); });
 
 // ============================================
 // 🎮 小组挑战题目
 // ============================================
 const questions = [
-  {
-    q: "30个成人，每人报告了家中邮箱的垃圾邮件数量和收件箱的垃圾邮件数量。研究者想知道两种垃圾邮件数量是否有显著差异。",
-    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
-    answer: 0,
-    explain: "✅ Paired! 同一人报告了两种数据 → 数据天然成对。关键词：'Each adult reported... as well as...'"
-  },
-  {
-    q: "西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想比较两个地区的差异。",
-    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
-    answer: 1,
-    explain: "✅ Two-sample! 两组完全独立的人 → 无配对关系。关键词：'100 people on west coast AND 100 people on east coast'"
-  },
-  {
-    q: "15部手机，在宾州和弗州两个偏远地区分别测量了信号强度。研究者想知道弗州信号是否更弱。",
-    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
-    answer: 0,
-    explain: "✅ Paired! 同一批手机在两个地点分别测量 → 每部手机有一对数据。配对消除了手机型号等混淆因素。"
-  },
-  {
-    q: "在气候变化研究中，我们比较同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？",
-    options: ["🔗 Paired data", "📊 Independent data"],
-    answer: 0,
-    explain: "✅ Paired! 同一地点，两个不同时期 → 配对设计控制了地理因素的影响。"
-  },
-  {
-    q: "一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末比较成绩。",
-    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
-    answer: 1,
-    explain: "✅ Two-sample! 两组不同的学生，随机分配到不同条件。"
-  },
-  {
-    q: "10名运动员分别在早上和晚上跑100米，记录成绩。教练想知道时间段是否影响成绩。",
-    options: ["🔗 Paired t-test", "📊 Two-sample t-test"],
-    answer: 0,
-    explain: "✅ Paired! 同一名运动员在两个时间段各跑一次 → 完美配对！"
-  }
+  { q: '30个成人，每人报告了家中邮箱的垃圾邮件数量和收件箱的垃圾邮件数量。研究者想知道两种垃圾邮件数量是否有显著差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一人报告了两种数据 → 数据天然成对。关键词：Each adult reported... as well as...' },
+  { q: '西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想比较两个地区的差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组完全独立的人 → 无配对关系。' },
+  { q: '15部手机，在宾州和弗州两个偏远地区分别测量了信号强度。研究者想知道弗州信号是否更弱。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一批手机在两个地点分别测量 → 每部手机有一对数据。' },
+  { q: '在气候变化研究中，我们比较同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？', options: ['🔗 Paired data', '📊 Independent data'], answer: 0, explain: '✅ Paired! 同一地点，两个不同时期 → 配对设计控制地理因素。' },
+  { q: '一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末比较成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组不同的学生。' },
+  { q: '10名运动员分别在早上和晚上跑100米，记录成绩。教练想知道时间段是否影响成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一名运动员在两个时间段各跑一次。' }
 ];
 
 let currentQ = 0;
@@ -1037,39 +1123,27 @@ let teamAAttempts = 0, teamBAttempts = 0;
 let teamACorrect = 0, teamBCorrect = 0;
 
 function startQuizGame() {
-  // 获取小组名称
   const nameA = document.getElementById('team-a-name').value.trim();
   const nameB = document.getElementById('team-b-name').value.trim();
   teamAName = nameA || 'Team A';
   teamBName = nameB || 'Team B';
-  
-  // 更新显示
   document.getElementById('quiz-team-a-name').textContent = '🔵 ' + teamAName;
   document.getElementById('quiz-team-b-name').textContent = '🔴 ' + teamBName;
-  
-  // 重置分数
   currentQ = 0;
   scoreA = 0; scoreB = 0;
   teamAAttempts = 0; teamBAttempts = 0;
   teamACorrect = 0; teamBCorrect = 0;
   currentTeam = 'A';
-  
   document.getElementById('score-a-game').textContent = '0';
   document.getElementById('score-b-game').textContent = '0';
-  
-  // 跳转到答题页面
   currentSlide = 13;
   updateSlide();
-  
   loadQuestion();
 }
+window.startQuizGame = startQuizGame;
 
 function loadQuestion() {
-  if (currentQ >= questions.length) { 
-    endQuiz(); 
-    return; 
-  }
-  
+  if (currentQ >= questions.length) return endQuiz();
   const q = questions[currentQ];
   const teamDisplay = currentTeam === 'A' ? '🔵 ' + teamAName : '🔴 ' + teamBName;
   document.getElementById('quiz-number').textContent = 'Question ' + (currentQ + 1) + ' / ' + questions.length + '  |  ' + teamDisplay + ' 答题';
@@ -1077,7 +1151,7 @@ function loadQuestion() {
   document.getElementById('quiz-explanation').style.display = 'none';
   document.getElementById('next-q-btn').style.display = 'none';
   document.getElementById('quiz-progress').style.width = ((currentQ / questions.length) * 100) + '%';
-  
+
   const optDiv = document.getElementById('quiz-options');
   optDiv.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -1087,22 +1161,21 @@ function loadQuestion() {
     btn.onclick = () => checkAnswer(i, btn);
     optDiv.appendChild(btn);
   });
-  
-  // 计时器
+
   let timeLeft = 15;
   const timerEl = document.getElementById('quiz-timer-display');
   timerEl.style.display = 'block';
   timerEl.textContent = timeLeft;
   timerEl.className = 'timer-display';
-  
+
   clearInterval(quizTimer);
   quizTimer = setInterval(() => {
     timeLeft--;
     timerEl.textContent = timeLeft;
     if (timeLeft <= 5) timerEl.className = 'timer-display warning';
-    if (timeLeft <= 0) { 
-      clearInterval(quizTimer); 
-      timeUp(); 
+    if (timeLeft <= 0) {
+      clearInterval(quizTimer);
+      timeUp();
     }
   }, 1000);
 }
@@ -1110,11 +1183,9 @@ function loadQuestion() {
 function checkAnswer(selected, btn) {
   clearInterval(quizTimer);
   document.getElementById('quiz-timer-display').style.display = 'none';
-  
   const q = questions[currentQ];
   document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
-  
-  // 记录答题
+
   if (currentTeam === 'A') {
     teamAAttempts++;
     if (selected === q.answer) teamACorrect++;
@@ -1122,15 +1193,15 @@ function checkAnswer(selected, btn) {
     teamBAttempts++;
     if (selected === q.answer) teamBCorrect++;
   }
-  
+
   if (selected === q.answer) {
     btn.classList.add('correct');
-    if (currentTeam === 'A') { 
-      scoreA += 100; 
+    if (currentTeam === 'A') {
+      scoreA += 100;
       document.getElementById('score-a-game').textContent = scoreA;
       document.getElementById('score-a-display').textContent = scoreA;
-    } else { 
-      scoreB += 100; 
+    } else {
+      scoreB += 100;
       document.getElementById('score-b-game').textContent = scoreB;
       document.getElementById('score-b-display').textContent = scoreB;
     }
@@ -1139,7 +1210,7 @@ function checkAnswer(selected, btn) {
     btn.classList.add('wrong');
     document.querySelectorAll('.quiz-option')[q.answer].classList.add('correct');
   }
-  
+
   document.getElementById('quiz-explanation').innerHTML = q.explain;
   document.getElementById('quiz-explanation').style.display = 'block';
   document.getElementById('next-q-btn').style.display = 'inline-block';
@@ -1153,10 +1224,7 @@ function timeUp() {
   document.getElementById('quiz-explanation').innerHTML = '⏰ 时间到！' + q.explain;
   document.getElementById('quiz-explanation').style.display = 'block';
   document.getElementById('next-q-btn').style.display = 'inline-block';
-  
-  // 记录未答
-  if (currentTeam === 'A') teamAAttempts++;
-  else teamBAttempts++;
+  if (currentTeam === 'A') teamAAttempts++; else teamBAttempts++;
 }
 
 function nextQuizQuestion() {
@@ -1164,27 +1232,42 @@ function nextQuizQuestion() {
   currentTeam = currentTeam === 'A' ? 'B' : 'A';
   loadQuestion();
 }
+window.nextQuizQuestion = nextQuizQuestion;
 
-function endQuiz() {
+async function saveTeamResult(name, score, correct, attempts) {
+  if (!firebaseReady || !name) return;
+  const ref = doc(db, 'classrooms', CLASSROOM_ID, 'teamResults', safeTeamId(name));
+  const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
+  const snap = await getDoc(ref);
+  const prev = snap.exists() ? snap.data() : null;
+  const bestScore = Math.max(prev?.score || 0, score);
+  const bestAccuracy = Math.max(prev?.accuracy || 0, accuracy);
+  await setDoc(ref, {
+    name,
+    score: bestScore,
+    accuracy: bestAccuracy,
+    correct: Math.max(prev?.correct || 0, correct),
+    attempts: Math.max(prev?.attempts || 0, attempts),
+    updatedAt: serverTimestamp(),
+    lastUserId: signedInUid
+  }, { merge: true });
+}
+
+async function endQuiz() {
   clearInterval(quizTimer);
   document.getElementById('quiz-timer-display').style.display = 'none';
   document.getElementById('quiz-progress').style.width = '100%';
-  
-  // 计算正确率
+
   const accA = teamAAttempts > 0 ? Math.round((teamACorrect / teamAAttempts) * 100) : 0;
   const accB = teamBAttempts > 0 ? Math.round((teamBCorrect / teamBAttempts) * 100) : 0;
   const avgAcc = Math.round((accA + accB) / 2);
-  
-  // 更新排行榜
+
   document.getElementById('rank-1-name').textContent = scoreA >= scoreB ? teamAName : teamBName;
   document.getElementById('rank-1-score').textContent = Math.max(scoreA, scoreB);
   document.getElementById('rank-1-acc').textContent = (scoreA >= scoreB ? accA : accB) + '%';
-  
   document.getElementById('rank-2-name').textContent = scoreA >= scoreB ? teamBName : teamAName;
   document.getElementById('rank-2-score').textContent = Math.min(scoreA, scoreB);
   document.getElementById('rank-2-acc').textContent = (scoreA >= scoreB ? accB : accA) + '%';
-  
-  // 更新统计
   document.getElementById('stats-team-a').textContent = teamAName;
   document.getElementById('stats-team-b').textContent = teamBName;
   document.getElementById('stats-a-correct').textContent = teamACorrect;
@@ -1193,34 +1276,41 @@ function endQuiz() {
   document.getElementById('stats-b-total').textContent = teamBAttempts;
   document.getElementById('avg-accuracy').textContent = avgAcc + '%';
   document.getElementById('accuracy-bar').style.width = avgAcc + '%';
-  
-  // 显示获胜者
+
   let winnerText;
-  if (scoreA > scoreB) {
-    winnerText = '🏆 🔵 ' + teamAName + ' 获胜！';
-  } else if (scoreB > scoreA) {
-    winnerText = '🏆 🔴 ' + teamBName + ' 获胜！';
-  } else {
-    winnerText = '🤝 平局！两个小组都很棒！';
-  }
+  if (scoreA > scoreB) winnerText = '🏆 🔵 ' + teamAName + ' 获胜！';
+  else if (scoreB > scoreA) winnerText = '🏆 🔴 ' + teamBName + ' 获胜！';
+  else winnerText = '🤝 平局！两个小组都很棒！';
   document.getElementById('winner-display').innerHTML = winnerText;
-  
-  // 显示结束页面
-  document.getElementById('quiz-card').innerHTML = 
+
+  document.getElementById('quiz-card').innerHTML =
     '<h2 style="text-align:center; font-size:1.8em;">🎉 挑战结束！</h2>' +
     '<div style="text-align:center; font-size:1.3em; margin:15px 0;">' +
     '🔵 ' + teamAName + ': ' + scoreA + ' 分 (' + accA + '%)<br>' +
-    '🔴 ' + teamBName + ': ' + scoreB + ' 分 (' + accB + '%)</div>';
+    '🔴 ' + teamBName + ': ' + scoreB + ' 分 (' + accB + '%)</div>' +
+    '<p style="text-align:center;color:#94a3b8;">结果已自动同步到 Firebase 排行榜</p>';
   document.getElementById('next-q-btn').style.display = 'none';
-  
+
+  await saveTeamResult(teamAName, scoreA, teamACorrect, teamAAttempts);
+  await saveTeamResult(teamBName, scoreB, teamBCorrect, teamBAttempts);
+
   emojiRain('🏆');
   setTimeout(() => emojiRain('🎉'), 500);
-  
-  // 3秒后跳转到排行榜
-  setTimeout(() => {
-    currentSlide = 14;
-    updateSlide();
-  }, 2000);
+  setTimeout(() => { currentSlide = 14; updateSlide(); }, 2000);
+}
+
+function renderLeaderboardFromFirebase(teams) {
+  const list = document.getElementById('leaderboard-list');
+  if (!list) return;
+  if (!teams.length) return;
+  const medals = ['🥇', '🥈', '🥉'];
+  list.innerHTML = teams.map((team, i) => `
+    <div class="leader-row">
+      <span class="leader-rank">${medals[i] || (i + 1)}</span>
+      <span class="leader-name">${team.name || team.id}</span>
+      <span class="leader-score">${team.score || 0}</span>
+      <span class="leader-accuracy">${team.accuracy || 0}%</span>
+    </div>`).join('');
 }
 
 function resetQuiz() {
@@ -1232,10 +1322,8 @@ function resetQuiz() {
   document.getElementById('score-b-display').textContent = '0';
   document.getElementById('winner-display').textContent = '等待挑战结果...';
 }
+window.resetQuiz = resetQuiz;
 
-// ============================================
-// Emoji Rain 效果
-// ============================================
 function emojiRain(emoji) {
   for (let i = 0; i < 8; i++) {
     setTimeout(() => {
@@ -1250,8 +1338,8 @@ function emojiRain(emoji) {
   }
 }
 
-// 初始化
 updateSlide();
+initFirebase();
 </script>
 </body>
 </html>
