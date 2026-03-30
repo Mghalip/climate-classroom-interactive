@@ -25,19 +25,19 @@
   .progress { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width 0.5s; z-index: 100; }
   
   /* 字体样式 */
-  h1 { font-size: 3em; margin-bottom: 25px; line-height: 1.2; }
+  h1 { font-size: 3.4em; margin-bottom: 28px; line-height: 1.2; }
   h1.gradient { background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  h2 { font-size: 2.2em; color: #93c5fd; margin-bottom: 20px; }
-  h3 { font-size: 1.5em; color: #a78bfa; margin-bottom: 12px; }
-  p { font-size: 1.3em; line-height: 1.7; color: #cbd5e1; }
-  .subtitle { font-size: 1.4em; color: #94a3b8; margin-top: 12px; }
+  h2 { font-size: 2.5em; color: #93c5fd; margin-bottom: 22px; }
+  h3 { font-size: 1.7em; color: #a78bfa; margin-bottom: 14px; }
+  p { font-size: 1.45em; line-height: 1.75; color: #cbd5e1; }
+  .subtitle { font-size: 1.6em; color: #94a3b8; margin-top: 12px; }
   .big-emoji { font-size: 4em; margin: 15px 0; }
   
   /* 卡片 */
   .cards { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 25px 0; }
   .card { background: #1e293b; border-radius: 16px; padding: 24px; flex: 1; min-width: 200px; border: 2px solid #334155; }
-  .card h3 { font-size: 1.3em; }
-  .card p { font-size: 1em; }
+  .card h3 { font-size: 1.45em; }
+  .card p { font-size: 1.1em; }
   .card.green { border-color: #10b981; }
   .card.blue { border-color: #3b82f6; }
   .card.red { border-color: #ef4444; }
@@ -45,7 +45,7 @@
   .card.purple { border-color: #8b5cf6; }
   
   /* 按钮 */
-  .btn { padding: 12px 24px; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-block; margin: 5px; }
+  .btn { padding: 13px 26px; border: none; border-radius: 10px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-block; margin: 5px; }
   .btn-primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
   .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
   .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
@@ -54,7 +54,7 @@
   .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   
   /* 表格 */
-  table { width: 100%; border-collapse: collapse; font-size: 1.1em; margin: 15px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 1.2em; margin: 15px 0; }
   th, td { padding: 12px 16px; border: 1px solid #334155; }
   th { background: #1e293b; color: #93c5fd; font-weight: 600; }
   td { color: #cbd5e1; }
@@ -102,7 +102,7 @@
   /* ===== 投票样式 ===== */
   .poll-bar { height: 36px; border-radius: 8px; margin: 8px 0; display: flex; align-items: center; padding: 0 12px; font-weight: 600; transition: width 0.8s ease; min-width: 60px; font-size: 14px; }
   .poll-container { margin: 15px 0; }
-  .vote-btn { padding: 16px 28px; font-size: 1.1em; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; margin: 8px; font-weight: 600; }
+  .vote-btn { padding: 18px 32px; font-size: 1.25em; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; margin: 8px; font-weight: 600; }
   .vote-btn:hover { transform: scale(1.05); }
   
   /* ===== 小组挑战样式 ===== */
@@ -111,17 +111,17 @@
   .team-input.blue { border-color: #3b82f6; }
   .team-input.red { border-color: #ef4444; }
   
-  .score-display { font-size: 2.5em; font-weight: 800; margin: 10px 0; }
+  .score-display { font-size: 2.9em; font-weight: 800; margin: 10px 0; }
   .score-team-a { color: #3b82f6; }
   .score-team-b { color: #ef4444; }
   
-  .quiz-option { display: block; width: 100%; padding: 14px 18px; margin: 8px 0; background: #334155; border: 2px solid #475569; border-radius: 10px; color: #e2e8f0; font-size: 15px; cursor: pointer; transition: all 0.3s; text-align: left; }
+  .quiz-option { display: block; width: 100%; padding: 16px 20px; margin: 8px 0; background: #334155; border: 2px solid #475569; border-radius: 10px; color: #e2e8f0; font-size: 18px; cursor: pointer; transition: all 0.3s; text-align: left; }
   .quiz-option:hover { border-color: #3b82f6; background: #3b4d6b; }
   .quiz-option.correct { border-color: #10b981; background: #064e3b; }
   .quiz-option.wrong { border-color: #ef4444; background: #450a0a; }
   .quiz-option.selected { border-color: #f59e0b; background: #78350f; }
   
-  .timer-display { font-size: 3em; text-align: center; font-weight: 800; color: #f59e0b; margin: 15px 0; font-family: 'Courier New', monospace; }
+  .timer-display { font-size: 3.4em; text-align: center; font-weight: 800; color: #f59e0b; margin: 15px 0; font-family: 'Courier New', monospace; }
   .timer-display.warning { color: #ef4444; animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
   
@@ -192,8 +192,8 @@
   <h1 class="gradient">Is Climate Change Real?</h1>
     <p style="margin-top: 30px; color: #f8fafc; font-size: 2.1em; font-weight: 800; line-height: 1.35; text-shadow: 0 2px 12px rgba(0,0,0,0.35);">Lesson: Matched Pairs, Confidence Intervals & Significance Tests</p>
   <div style="margin-top: 28px; max-width: 980px; text-align: left; background: rgba(15,23,42,0.55); border: 2px solid rgba(147,197,253,0.28); border-radius: 18px; padding: 26px 34px; box-shadow: 0 10px 30px rgba(0,0,0,0.18);">
-    <p style="font-size: 1.15em; color: #93c5fd; font-weight: 800; margin-bottom: 12px;">Learning Objectives</p>
-    <ol style="font-size: 1.08em; line-height: 1.9; margin-left: 24px; color: #e2e8f0;">
+    <p style="font-size: 1.35em; color: #93c5fd; font-weight: 800; margin-bottom: 14px;">Learning Objectives</p>
+    <ol style="font-size: 1.24em; line-height: 1.9; margin-left: 26px; color: #e2e8f0;">
       <li>Understand and apply <strong style="color:#f8fafc;">simple random sampling</strong> to select a sample.</li>
       <li>Understand the concept of <strong style="color:#f8fafc;">paired data</strong> and how to analyze it.</li>
       <li>Use a <strong style="color:#f8fafc;">dotplot</strong> and summary statistics to describe a data distribution.</li>
@@ -211,7 +211,7 @@
   <div style="margin: 35px 0;">
     <span class="bounce" style="font-size: 3.5em;">❓</span>
   </div>
-  <h1 style="color: #f59e0b; font-size: 2.5em;">"过去100年，地球真的The climate has warmed吗？"</h1>
+  <h1 style="color: #f59e0b; font-size: 2.5em;">"过去100年，地球真的Climate has warmed吗？"</h1>
   <p style="margin-top: 25px;">We will not rely on headlines or intuition.<br>We will rely on <strong style="color: #3b82f6;">data</strong> and <strong style="color: #8b5cf6;">statistical inference</strong></p>
 </div>
 
@@ -576,7 +576,7 @@
     <p style="font-size: 1em;">What would we expect the mean difference (μ_d) to be?</p>
     <div class="code" style="text-align: center; font-size: 1em;">
       H₀: μ_d = 0 &nbsp;&nbsp;(No change)<br>
-      Hₐ: μ_d > 0 &nbsp;&nbsp;(The climate has warmed)
+      Hₐ: μ_d > 0 &nbsp;&nbsp;(Climate has warmed)
     </div>
   </div>
   
@@ -616,11 +616,11 @@
   
   <button class="btn btn-primary" onclick="startQuizGame()" style="font-size: 1.2em; padding: 15px 40px; margin-top: 20px;">🏁 Start Challenge!</button>
   
-  <p style="margin-top: 20px; color: #94a3b8;">6 questions, alternating turns, with a 15-second timer</p>
+  <p style="margin-top: 20px; color: #94a3b8;">6 questions, alternatings, with a 15-second timer</p>
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 14: 🎮 turn页面 -->
+<!-- SLIDE 14: 🎮页面 -->
 <!-- ============================================ -->
 <div class="slide">
   <h2>🎮 Team Challenge</h2>
@@ -676,11 +676,11 @@
           <span class="leader-accuracy" id="rank-2-acc">0%</span>
         </div>
       </div>
-      <p style="text-align: center; color: #94a3b8; margin-top: 15px; font-size: 0.9em;">correct率 = 答对题数 ÷ turn总数 × 100%</p>
+      <p style="text-align: center; color: #94a3b8; margin-top: 15px; font-size: 0.9em;">correct率 = 答对题数 ÷总数 × 100%</p>
     </div>
     
     <div class="card">
-      <h3 style="color: #10b981;">✅ turn统计</h3>
+      <h3 style="color: #10b981;">✅统计</h3>
       <div id="quiz-stats">
         <p style="margin: 10px 0;"><span id="stats-team-a">Team A</span>: <span id="stats-a-correct">0</span> / <span id="stats-a-total">0</span> correct</p>
         <p style="margin: 10px 0;"><span id="stats-team-b">Team B</span>: <span id="stats-b-correct">0</span> / <span id="stats-b-total">0</span> correct</p>
@@ -1148,11 +1148,11 @@ window.addEventListener('resize', () => { if (classData.length) renderDotplot();
 // ============================================
 const questions = [
   { q: '30个成人，每人报告了家中邮箱的垃圾邮件数量和收件箱的垃圾邮件数量。研究者想知道两种垃圾邮件数量是否有显著差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一人报告了两种数据 → 数据天然成对。Key words：Each adult reported... as well as...' },
-  { q: '西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想Compare两个地区的差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组完全独立的人 → 无配对关系。' },
-  { q: '15部手机，在宾州和弗州两个偏远地区分别测量了信号强度。研究者想知道弗州信号是否更弱。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一批手机在两个地点分别测量 → 每部手机有一对数据。' },
-  { q: '在气候变化研究中，我们Compare同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？', options: ['🔗 Paired data', '📊 Independent data'], answer: 0, explain: '✅ Paired! 同一地点，两个不同时期 → 配对设计控制地理因素。' },
-  { q: '一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末Compare成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组不同的学生。' },
-  { q: '10名运动员分别在早上和晚上跑100米，记录成绩。教练想知道时间段是否影响成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一名运动员在两个时间段各跑一次。' }
+  { q: '西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想Compare两个地区的差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! These are two completely independent groups, so there is no pairing.' },
+  { q: '15部手机，在宾州和弗州两个偏远地区分别测量了信号强度。研究者想知道弗州信号是否更弱。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! The same set of phones was measured in two locations, so each phone contributes a pair of values.' },
+  { q: '在气候变化研究中，我们Compare同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？', options: ['🔗 Paired data', '📊 Independent data'], answer: 0, explain: '✅ Paired! It is the same location measured in two different time periods, so the paired design controls for geography.' },
+  { q: '一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末Compare成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! These are two different groups of students.' },
+  { q: '10名运动员分别在早上和晚上跑100米，记录成绩。教练想知道时间段是否影响成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! The same athlete runs once in each time period.' }
 ];
 
 let currentQ = 0;
@@ -1188,7 +1188,7 @@ function loadQuestion() {
   if (currentQ >= questions.length) return endQuiz();
   const q = questions[currentQ];
   const teamDisplay = currentTeam === 'A' ? '🔵 ' + teamAName : '🔴 ' + teamBName;
-  document.getElementById('quiz-number').textContent = 'Question ' + (currentQ + 1) + ' / ' + questions.length + '  |  ' + teamDisplay + ' turn';
+  document.getElementById('quiz-number').textContent = 'Question ' + (currentQ + 1) + ' / ' + questions.length + '  |  ' + teamDisplay + '';
   document.getElementById('quiz-question').textContent = q.q;
   document.getElementById('quiz-explanation').style.display = 'none';
   document.getElementById('next-q-btn').style.display = 'none';
