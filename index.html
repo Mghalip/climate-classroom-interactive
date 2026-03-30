@@ -784,8 +784,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import {
-  getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, increment,
-  collection, addDoc, serverTimestamp, query, orderBy, limit, runTransaction
+  getFirestore, doc, setDoc, getDoc, onSnapshot, increment,
+  collection, addDoc, serverTimestamp, query, orderBy, limit
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -923,12 +923,13 @@ function renderPoll() {
 
 async function vote(choice) {
   if (!firebaseReady) return alert('Firebase 还没连上，请稍等 1-2 秒再试。');
-  await runTransaction(db, async (tx) => {
-    const snap = await tx.get(POLL_DOC);
-    const data = snap.exists() ? snap.data() : { up: 0, same: 0, down: 0 };
-    data[choice] = (data[choice] || 0) + 1;
-    tx.set(POLL_DOC, { ...data, updatedAt: serverTimestamp() }, { merge: true });
-  });
+  await setDoc(POLL_DOC, {
+    up: 0,
+    same: 0,
+    down: 0,
+    [choice]: increment(1),
+    updatedAt: serverTimestamp()
+  }, { merge: true });
   emojiRain(choice === 'up' ? '🔥' : choice === 'down' ? '❄️' : '➡️');
 }
 window.vote = vote;
