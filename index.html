@@ -793,7 +793,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, onSnapshot, increment,
-  collection, addDoc, serverTimestamp, query, orderBy, limit, runTransaction
+  collection, addDoc, serverTimestamp, query, orderBy, limit
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -812,7 +812,6 @@ const CLASSROOM_ID = 'default-class';
 const POLL_DOC = doc(db, 'classrooms', CLASSROOM_ID, 'meta', 'poll');
 const TEAM_RESULTS = collection(db, 'classrooms', CLASSROOM_ID, 'teamResults');
 const SUBMISSIONS = collection(db, 'classrooms', CLASSROOM_ID, 'submissions');
-const voteKey = 'climate_classroom_voted_poll1';
 
 let firebaseReady = false;
 let signedInUid = null;
@@ -922,8 +921,7 @@ function renderPoll() {
   const total = (votes.up || 0) + (votes.same || 0) + (votes.down || 0);
   document.getElementById('poll-results').style.display = total > 0 ? 'block' : 'none';
   document.getElementById('total-votes').textContent = total;
-  const voted = localStorage.getItem(voteKey) === '1';
-  document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = voted);
+  document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = false);
   ['up', 'same', 'down'].forEach(k => {
     const pct = total > 0 ? Math.round(((votes[k] || 0) / total) * 100) : 0;
     const bar = document.getElementById('bar-' + k);
@@ -934,38 +932,16 @@ function renderPoll() {
 
 async function vote(choice) {
   if (!firebaseReady) return alert('Firebase is not connected yet. Please wait 1–2 seconds and try again.');
-  if (localStorage.getItem(voteKey) === '1') {
-    return alert('This device has already voted. One vote per person.');
-  }
-  const voterRef = doc(db, 'classrooms', CLASSROOM_ID, 'pollVoters', signedInUid);
   try {
-    await runTransaction(db, async (tx) => {
-      const voterSnap = await tx.get(voterRef);
-      if (voterSnap.exists()) {
-        throw new Error('ALREADY_VOTED');
-      }
-      tx.set(voterRef, {
-        choice,
-        uid: signedInUid,
-        createdAt: serverTimestamp()
-      });
-      tx.set(POLL_DOC, {
-        up: 0,
-        same: 0,
-        down: 0,
-        [choice]: increment(1),
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-    });
-    localStorage.setItem(voteKey, '1');
-    document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
+    await setDoc(POLL_DOC, {
+      up: 0,
+      same: 0,
+      down: 0,
+      [choice]: increment(1),
+      updatedAt: serverTimestamp()
+    }, { merge: true });
     emojiRain(choice === 'up' ? '🔥' : choice === 'down' ? '❄️' : '➡️');
   } catch (err) {
-    if (String(err.message || err).includes('ALREADY_VOTED')) {
-      localStorage.setItem(voteKey, '1');
-      document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-      return alert('This account/device has already voted. One vote per person.');
-    }
     console.error(err);
     return alert('Voting failed. Please try again later.');
   }
@@ -975,9 +951,7 @@ window.vote = vote;
 async function resetPoll() {
   if (!firebaseReady) return;
   await setDoc(POLL_DOC, { up: 0, same: 0, down: 0, updatedAt: serverTimestamp() });
-  localStorage.removeItem(voteKey);
   document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = false);
-  alert('This only resets the displayed poll totals. If you want a brand-new round, I can add a teacher button to clear voter records.');
 }
 window.resetPoll = resetPoll;
 
