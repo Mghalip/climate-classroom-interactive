@@ -804,6 +804,8 @@ const CLASSROOM_ID = 'default-class';
 const POLL_DOC = doc(db, 'classrooms', CLASSROOM_ID, 'meta', 'poll');
 const TEAM_RESULTS = collection(db, 'classrooms', CLASSROOM_ID, 'teamResults');
 const SUBMISSIONS = collection(db, 'classrooms', CLASSROOM_ID, 'submissions');
+const DEVICE_DOC = auth.currentUser;
+const voteKey = 'climate_classroom_voted_poll1';
 
 let firebaseReady = false;
 let signedInUid = null;
@@ -913,6 +915,8 @@ function renderPoll() {
   const total = (votes.up || 0) + (votes.same || 0) + (votes.down || 0);
   document.getElementById('poll-results').style.display = total > 0 ? 'block' : 'none';
   document.getElementById('total-votes').textContent = total;
+  const voted = localStorage.getItem(voteKey) === '1';
+  document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = voted);
   ['up', 'same', 'down'].forEach(k => {
     const pct = total > 0 ? Math.round(((votes[k] || 0) / total) * 100) : 0;
     const bar = document.getElementById('bar-' + k);
@@ -923,6 +927,9 @@ function renderPoll() {
 
 async function vote(choice) {
   if (!firebaseReady) return alert('Firebase 还没连上，请稍等 1-2 秒再试。');
+  if (localStorage.getItem(voteKey) === '1') {
+    return alert('这个设备已经投过票啦，每人一次～');
+  }
   await setDoc(POLL_DOC, {
     up: 0,
     same: 0,
@@ -930,6 +937,8 @@ async function vote(choice) {
     [choice]: increment(1),
     updatedAt: serverTimestamp()
   }, { merge: true });
+  localStorage.setItem(voteKey, '1');
+  document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
   emojiRain(choice === 'up' ? '🔥' : choice === 'down' ? '❄️' : '➡️');
 }
 window.vote = vote;
@@ -937,6 +946,8 @@ window.vote = vote;
 async function resetPoll() {
   if (!firebaseReady) return;
   await setDoc(POLL_DOC, { up: 0, same: 0, down: 0, updatedAt: serverTimestamp() });
+  localStorage.removeItem(voteKey);
+  document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = false);
 }
 window.resetPoll = resetPoll;
 
