@@ -200,85 +200,85 @@
       <li>Make <strong style="color:#f8fafc;">statistical inferences</strong> from data and interpret conclusions.</li>
     </ol>
   </div>
-  <p style="margin-top: 40px; color: #475569; font-size: 0.9em;">按 → 或点击右箭头继续</p>
+  <p style="margin-top: 40px; color: #475569; font-size: 0.9em;">Press → or click the right arrow to continue</p>
 </div>
 
 <!-- ============================================ -->
 <!-- SLIDE 2: 今日问题 -->
 <!-- ============================================ -->
 <div class="slide center">
-  <h2>今天我们要回答的问题</h2>
+  <h2>Today’s Question</h2>
   <div style="margin: 35px 0;">
     <span class="bounce" style="font-size: 3.5em;">❓</span>
   </div>
-  <h1 style="color: #f59e0b; font-size: 2.5em;">"过去100年，地球真的变暖了吗？"</h1>
-  <p style="margin-top: 25px;">我们不靠新闻、不靠直觉<br>我们靠 <strong style="color: #3b82f6;">数据</strong> 和 <strong style="color: #8b5cf6;">统计推断</strong></p>
+  <h1 style="color: #f59e0b; font-size: 2.5em;">"过去100年，地球真的The climate has warmed吗？"</h1>
+  <p style="margin-top: 25px;">We will not rely on headlines or intuition.<br>We will rely on <strong style="color: #3b82f6;">data</strong> and <strong style="color: #8b5cf6;">statistical inference</strong></p>
 </div>
 
 <!-- ============================================ -->
 <!-- SLIDE 3: 实时投票 -->
 <!-- ============================================ -->
 <div class="slide center">
-  <h2>📊 Quick Poll - 实时投票</h2>
-  <h1 style="font-size: 2em;">你认为过去100年全球气温...</h1>
+  <h2>📊 Quick Poll - Live Voting</h2>
+  <h1 style="font-size: 2em;">What do you think happened to global temperatures over the past 100 years?</h1>
   
   <div style="margin: 30px 0;">
-    <button class="vote-btn btn-danger" onclick="vote('up')">🔥 上升了</button>
-    <button class="vote-btn btn-primary" onclick="vote('same')">➡️ 没什么变化</button>
-    <button class="vote-btn btn-success" onclick="vote('down')">❄️ 下降了</button>
+    <button class="vote-btn btn-danger" onclick="vote('up')">🔥 Increased</button>
+    <button class="vote-btn btn-primary" onclick="vote('same')">➡️ Stayed about the same</button>
+    <button class="vote-btn btn-success" onclick="vote('down')">❄️ Decreased</button>
   </div>
   
   <div id="poll-results" class="poll-container" style="display: none; max-width: 600px; width: 100%;">
-    <h3 style="color: #f59e0b; margin-bottom: 15px;">📈 实时投票结果</h3>
+    <h3 style="color: #f59e0b; margin-bottom: 15px;">📈 Live Poll Results</h3>
     <div style="margin: 8px 0;">
-      <span style="font-size: 0.9em;">🔥 上升了</span>
+      <span style="font-size: 0.9em;">🔥 Increased</span>
       <div class="poll-bar" id="bar-up" style="width: 0%; background: linear-gradient(90deg, #ef4444, #f87171);">0</div>
     </div>
     <div style="margin: 8px 0;">
-      <span style="font-size: 0.9em;">➡️ 没什么变化</span>
+      <span style="font-size: 0.9em;">➡️ Stayed about the same</span>
       <div class="poll-bar" id="bar-same" style="width: 0%; background: linear-gradient(90deg, #3b82f6, #60a5fa);">0</div>
     </div>
     <div style="margin: 8px 0;">
-      <span style="font-size: 0.9em;">❄️ 下降了</span>
+      <span style="font-size: 0.9em;">❄️ Decreased</span>
       <div class="poll-bar" id="bar-down" style="width: 0%; background: linear-gradient(90deg, #10b981, #34d399);">0</div>
     </div>
-    <p style="text-align: center; color: #94a3b8; margin-top: 15px;">总投票数：<span id="total-votes">0</span></p>
+    <p style="text-align: center; color: #94a3b8; margin-top: 15px;">Total votes: <span id="total-votes">0</span></p>
   </div>
   
-  <button class="btn btn-primary" onclick="resetPoll()" style="margin-top: 20px;">🔄 重置投票</button>
+  <button class="btn btn-primary" onclick="resetPoll()" style="margin-top: 20px;">🔄 Reset Poll</button>
 </div>
 
 <!-- ============================================ -->
 <!-- SLIDE 4: 研究方法 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🧪 我们的方法</h2>
-  <p style="margin-bottom: 20px;">今天每个人都是 <strong style="color: #3b82f6;">气候科学家</strong></p>
+  <h2>🧪 Our Method</h2>
+  <p style="margin-bottom: 20px;">Today, everyone becomes a <strong style="color: #3b82f6;">climate scientist</strong></p>
   
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-num">1</div>
-      <p style="font-size: 0.9em;">随机抽样<br><span class="tag tag-blue">Random</span></p>
+      <p style="font-size: 0.9em;">Random Sampling<br><span class="tag tag-blue">Random</span></p>
     </div>
     <div class="timeline-item">
       <div class="timeline-num">2</div>
-      <p style="font-size: 0.9em;">收集数据<br><span class="tag tag-green">NASA</span></p>
+      <p style="font-size: 0.9em;">Collect Data<br><span class="tag tag-green">NASA</span></p>
     </div>
     <div class="timeline-item">
       <div class="timeline-num">3</div>
-      <p style="font-size: 0.9em;">可视化<br><span class="tag tag-yellow">Dotplot</span></p>
+      <p style="font-size: 0.9em;">Visualization<br><span class="tag tag-yellow">Dotplot</span></p>
     </div>
     <div class="timeline-item">
       <div class="timeline-num">4</div>
-      <p style="font-size: 0.9em;">统计推断<br><span class="tag tag-red">Inference</span></p>
+      <p style="font-size: 0.9em;">Statistical Inference<br><span class="tag tag-red">Inference</span></p>
     </div>
   </div>
   
   <div class="highlight" style="margin-top: 25px;">
-    <h3 style="color: #f59e0b;">🔑 核心思路</h3>
-    <p>比较同一地点在 <strong style="color: #3b82f6;">1900-1940</strong> 和 <strong style="color: #ef4444;">1960-2000</strong> 的温度</p>
+    <h3 style="color: #f59e0b;">🔑 Core Idea</h3>
+    <p>Compare temperatures at the same location during <strong style="color: #3b82f6;">1900–1940</strong> and <strong style="color: #ef4444;">1960–2000</strong></p>
     <p style="margin-top: 8px;">Difference = Temp₂ − Temp₁</p>
-    <p style="margin-top: 8px;">如果 Difference &gt; 0 → 该地点<strong style="color: #ef4444;">变暖了</strong></p>
+    <p style="margin-top: 8px;">If Difference &gt; 0 → the location <strong style="color: #ef4444;">got warmer</strong></p>
   </div>
 </div>
 
@@ -286,16 +286,16 @@
 <!-- SLIDE 5: 配对数据介绍 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🔗 什么是配对数据？</h2>
+  <h2>🔗 What Is Paired Data?</h2>
   
   <div class="vs-container">
     <div class="vs-box" style="border: 2px solid #10b981;">
       <h3 style="color: #10b981;">🔗 Paired t</h3>
-      <p style="font-size: 0.9em; color: #94a3b8;">同一主体，两种条件</p>
+      <p style="font-size: 0.9em; color: #94a3b8;">Same subject, two conditions</p>
       <ul style="font-size: 0.85em; text-align: left; margin-top: 8px;">
-        <li>同一人的前/后测试</li>
-        <li>同一地点的不同时期</li>
-        <li>同一设备在不同环境</li>
+        <li>Before/after measurements on the same person</li>
+        <li>Different time periods at the same location</li>
+        <li>Same device in different environments</li>
       </ul>
       <div style="margin-top: 8px;">
         <span class="tag tag-green">before/after</span>
@@ -306,11 +306,11 @@
     
     <div class="vs-box" style="border: 2px solid #ef4444;">
       <h3 style="color: #ef4444;">📊 Two-sample t</h3>
-      <p style="font-size: 0.9em; color: #94a3b8;">两个独立群体</p>
+      <p style="font-size: 0.9em; color: #94a3b8;">Two independent groups</p>
       <ul style="font-size: 0.85em; text-align: left; margin-top: 8px;">
-        <li>两组不同的人</li>
-        <li>两个独立样本</li>
-        <li>不同个体之间比较</li>
+        <li>Two different groups of people</li>
+        <li>Two independent samples</li>
+        <li>Comparing different individuals</li>
       </ul>
       <div style="margin-top: 8px;">
         <span class="tag tag-red">Group A vs Group B</span>
@@ -319,7 +319,7 @@
   </div>
   
   <div class="highlight green">
-    <p style="text-align: center;">💡 今天的气候实验是 <strong style="color: #10b981; font-size: 1.2em;">Paired Design</strong> — 同一地点，两个时期！</p>
+    <p style="text-align: center;">💡 Today’s climate investigation uses a <strong style="color: #10b981; font-size: 1.2em;">Paired Design</strong> — the same location across two time periods!</p>
   </div>
 </div>
 
@@ -327,23 +327,23 @@
 <!-- SLIDE 6: 为什么用配对设计 -->
 <!-- ============================================ -->
 <div class="slide center">
-  <h2>❓ 为什么用配对设计？</h2>
+  <h2>❓ Why Use a Paired Design?</h2>
   
   <div class="two-col" style="margin-top: 25px;">
     <div class="card red">
-      <h3>❌ 如果不配对...</h3>
-      <p style="font-size: 0.95em;">比较北京 1900 年 vs 悉尼 1960 年</p>
-      <p style="font-size: 0.95em; margin-top: 8px; color: #fca5a5;">→ 温度差异可能是因为<strong>地理位置不同</strong>！</p>
+      <h3>❌ Without pairing...</h3>
+      <p style="font-size: 0.95em;">Comparing Beijing in 1900 vs. Sydney in 1960</p>
+      <p style="font-size: 0.95em; margin-top: 8px; color: #fca5a5;">→ The difference might be caused by <strong>different locations</strong>!</p>
     </div>
     <div class="card green">
-      <h3>✅ 配对设计</h3>
-      <p style="font-size: 0.95em;">比较北京 1900 年 vs 北京 1960 年</p>
-      <p style="font-size: 0.95em; margin-top: 8px; color: #6ee7b7;">→ 地理因素被<strong>控制住了</strong>，差异来自<strong>时间变化</strong>！</p>
+      <h3>✅ Paired design</h3>
+      <p style="font-size: 0.95em;">Comparing Beijing in 1900 vs. Beijing in 1960</p>
+      <p style="font-size: 0.95em; margin-top: 8px; color: #6ee7b7;">→ Geographic factors are <strong>controlled</strong>, so the difference comes from <strong>time</strong>!</p>
     </div>
   </div>
   
   <div class="highlight" style="margin-top: 25px;">
-    <p style="text-align: center; font-size: 1.2em;">🎯 配对设计的优势：<strong style="color: #f59e0b;">减少混淆变量，提高推断精度</strong></p>
+    <p style="text-align: center; font-size: 1.2em;">🎯 Advantage of pairing: <strong style="color: #f59e0b;">reduce confounding and improve precision</strong></p>
   </div>
 </div>
 
@@ -351,26 +351,26 @@
 <!-- SLIDE 7: 研究设计 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>📐 研究设计</h2>
+  <h2>📐 Research Design</h2>
   
   <div class="vs-container">
     <div class="vs-box" style="border: 2px solid #3b82f6;">
       <div style="font-size: 2.5em;">🕰️</div>
       <h3 style="color: #3b82f6;">Period 1</h3>
       <p style="font-size: 1.3em; color: white;">1900 - 1940</p>
-      <p style="color: #94a3b8; font-size: 0.9em;">最高温度 (Temp₁)</p>
+      <p style="color: #94a3b8; font-size: 0.9em;">Maximum temperature (Temp₁)</p>
     </div>
     
     <div style="text-align: center;">
       <div style="font-size: 1.8em; color: #f59e0b;">⚡</div>
-      <p style="font-size: 0.9em; color: #f59e0b;">比较</p>
+      <p style="font-size: 0.9em; color: #f59e0b;">Compare</p>
     </div>
     
     <div class="vs-box" style="border: 2px solid #ef4444;">
       <div style="font-size: 2.5em;">🌡️</div>
       <h3 style="color: #ef4444;">Period 2</h3>
       <p style="font-size: 1.3em; color: white;">1960 - 2000</p>
-      <p style="color: #94a3b8; font-size: 0.9em;">最高温度 (Temp₂)</p>
+      <p style="color: #94a3b8; font-size: 0.9em;">Maximum temperature (Temp₂)</p>
     </div>
   </div>
   
@@ -381,15 +381,15 @@
   <div class="cards" style="margin-top: 20px;">
     <div class="card yellow" style="text-align: center;">
       <p style="font-size: 0.9em;">Difference &gt; 0</p>
-      <p style="font-size: 1.2em; color: #ef4444;">🔥 变暖了</p>
+      <p style="font-size: 1.2em; color: #ef4444;">🔥 Warmer</p>
     </div>
     <div class="card blue" style="text-align: center;">
       <p style="font-size: 0.9em;">Difference = 0</p>
-      <p style="font-size: 1.2em; color: #94a3b8;">➡️ 没变化</p>
+      <p style="font-size: 1.2em; color: #94a3b8;">➡️ No change</p>
     </div>
     <div class="card green" style="text-align: center;">
       <p style="font-size: 0.9em;">Difference &lt; 0</p>
-      <p style="font-size: 1.2em; color: #3b82f6;">❄️ 变冷了</p>
+      <p style="font-size: 1.2em; color: #3b82f6;">❄️ Cooler</p>
     </div>
   </div>
 </div>
@@ -398,17 +398,17 @@
 <!-- SLIDE 8: 🔬 数据收集实验 - 随机坐标 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🔬 数据收集实验 - Step 1</h2>
+  <h2>🔬 Data Collection Lab - Step 1</h2>
   
   <div class="step-indicator">
-    <div class="step active">1. 生成坐标</div>
-    <div class="step">2. 查询数据</div>
-    <div class="step">3. 记录汇总</div>
-    <div class="step">4. 可视化</div>
+    <div class="step active">1. Generate coordinates</div>
+    <div class="step">2. Find the data</div>
+    <div class="step">3. Record and submit</div>
+    <div class="step">4. Visualization</div>
   </div>
   
   <div class="highlight">
-    <h3 style="color: #3b82f6;">🎲 生成随机坐标</h3>
+    <h3 style="color: #3b82f6;">🎲 Generate Random Coordinates</h3>
     <div class="code">
       Longitude = Random(-180, 180)<br>
       Latitude  = Random(-90, 90)
@@ -416,22 +416,22 @@
   </div>
   
   <div style="text-align: center; margin: 20px 0;">
-    <button class="btn btn-purple" onclick="generateCoords()" style="font-size: 1.2em; padding: 15px 35px;">🎲 生成随机坐标</button>
+    <button class="btn btn-purple" onclick="generateCoords()" style="font-size: 1.2em; padding: 15px 35px;">🎲 Generate Random Coordinates</button>
   </div>
   
   <div id="coords-result" style="display: none;">
     <div class="cards">
       <div class="card blue" style="text-align: center;">
-        <p style="color: #94a3b8;">Longitude (经度)</p>
+        <p style="color: #94a3b8;">Longitude (Longitude)</p>
         <p id="coord-lon" style="font-size: 2.5em; color: #3b82f6; font-weight: bold;"></p>
       </div>
       <div class="card green" style="text-align: center;">
-        <p style="color: #94a3b8;">Latitude (纬度)</p>
+        <p style="color: #94a3b8;">Latitude (Latitude)</p>
         <p id="coord-lat" style="font-size: 2.5em; color: #10b981; font-weight: bold;"></p>
       </div>
     </div>
     <p style="text-align: center; color: #94a3b8; margin-top: 15px;">
-      👉 前往 <a href="https://data.giss.nasa.gov/gistemp/station_data_v4_globe/" target="_blank" style="color: #3b82f6;">NASA GHCN Globe</a> 找到最近的气象站
+      👉 Go to <a href="https://data.giss.nasa.gov/gistemp/station_data_v4_globe/" target="_blank" style="color: #3b82f6;">NASA GHCN Globe</a> and find the nearest weather station
     </p>
   </div>
 </div>
@@ -440,13 +440,13 @@
 <!-- SLIDE 9: 🔬 NASA 操作指南 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🔬 Step 2: NASA Globe 操作</h2>
+  <h2>🔬 Step 2: Using NASA Globe</h2>
   
   <div class="step-indicator">
-    <div class="step">1. 生成坐标</div>
-    <div class="step active">2. 查询数据</div>
-    <div class="step">3. 记录汇总</div>
-    <div class="step">4. 可视化</div>
+    <div class="step">1. Generate coordinates</div>
+    <div class="step active">2. Find the data</div>
+    <div class="step">3. Record and submit</div>
+    <div class="step">4. Visualization</div>
   </div>
   
   <div style="text-align: center; margin: 15px 0;">
@@ -454,19 +454,19 @@
   </div>
   
   <ol style="font-size: 1.1em;">
-    <li>设置日期范围：<strong style="color: #3b82f6;">1900</strong> → <strong style="color: #ef4444;">2000</strong></li>
-    <li>选择 Dataset：<strong style="color: #10b981;">GHCN V4 adj – cleaned</strong></li>
-    <li>点击 <strong style="color: #f59e0b;">Update</strong></li>
-    <li>输入你的经纬度坐标，点击 <strong style="color: #f59e0b;">Recenter</strong></li>
-    <li>放大地图，找到<strong>最近的气象站</strong></li>
-    <li>Hover 气象站，点击 <strong style="color: #f59e0b;">Generate Plot</strong></li>
+    <li>Set the date range: <strong style="color: #3b82f6;">1900</strong> → <strong style="color: #ef4444;">2000</strong></li>
+    <li>Select the dataset: <strong style="color: #10b981;">GHCN V4 adj – cleaned</strong></li>
+    <li>Click <strong style="color: #f59e0b;">Update</strong></li>
+    <li>输入你的经Latitude坐标，点击 <strong style="color: #f59e0b;">Recenter</strong></li>
+    <li>Zoom in and find the <strong>nearest weather station</strong></li>
+    <li>Hover over the station and click <strong style="color: #f59e0b;">Generate Plot</strong></li>
   </ol>
   
   <div class="highlight warm" style="margin-top: 20px;">
-    <h3 style="color: #ef4444;">⚠️ 注意事项</h3>
+    <h3 style="color: #ef4444;">⚠️ Notes</h3>
     <ul style="font-size: 0.95em;">
-      <li>如果坐标附近<strong>没有气象站</strong>（海洋上），重新生成坐标</li>
-      <li>温度单位是 <strong>摄氏度 (°C)</strong>，精确到 <strong>一位小数</strong></li>
+      <li>If there is <strong>no weather station</strong> nearby (for example, over the ocean), generate a new location</li>
+      <li>Temperatures are in <strong>degrees Celsius (°C)</strong>, rounded to <strong>one decimal place</strong></li>
     </ul>
   </div>
 </div>
@@ -475,16 +475,16 @@
 <!-- SLIDE 10: 🔬 数据记录 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🔬 Step 3: 记录数据</h2>
+  <h2>🔬 Step 3: Record the Data</h2>
   
   <div class="step-indicator">
-    <div class="step">1. 生成坐标</div>
-    <div class="step">2. 查询数据</div>
-    <div class="step active">3. 记录汇总</div>
-    <div class="step">4. 可视化</div>
+    <div class="step">1. Generate coordinates</div>
+    <div class="step">2. Find the data</div>
+    <div class="step active">3. Record and submit</div>
+    <div class="step">4. Visualization</div>
   </div>
   
-  <p style="margin-bottom: 15px; font-size: 1.1em;">从图表中找到两个时期的<strong style="color: #f59e0b;">最高温度点</strong></p>
+  <p style="margin-bottom: 15px; font-size: 1.1em;">From the graph, identify the <strong style="color: #f59e0b;">highest temperature</strong> in each period</p>
   
   <table class="data-table">
     <thead>
@@ -507,7 +507,7 @@
   
   <div style="text-align: center; margin-top: 10px;">
     <button class="btn btn-success" onclick="addDataRow()">+ 添加一行</button>
-    <button class="btn btn-primary" onclick="submitToClass()">📤 提交到班级数据</button>
+    <button class="btn btn-primary" onclick="submitToClass()">📤 Submit to Class Data</button>
   </div>
 </div>
 
@@ -515,17 +515,17 @@
 <!-- SLIDE 11: 🔬 班级数据汇总 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🔬 Step 4: 班级数据汇总 & 点图</h2>
+  <h2>🔬 Step 4: Class Data Summary & Dotplot</h2>
   
   <div class="step-indicator">
-    <div class="step">1. 生成坐标</div>
-    <div class="step">2. 查询数据</div>
-    <div class="step">3. 记录汇总</div>
-    <div class="step active">4. 可视化</div>
+    <div class="step">1. Generate coordinates</div>
+    <div class="step">2. Find the data</div>
+    <div class="step">3. Record and submit</div>
+    <div class="step active">4. Visualization</div>
   </div>
   
   <div class="card">
-    <h3>📊 班级数据点图 (Dotplot)</h3>
+    <h3>📊 Class Dotplot</h3>
     <div class="dotplot-container" id="dotplot-container">
       <div class="dotplot-axis"></div>
       <div style="position: absolute; bottom: 5px; left: 35px; color: #94a3b8; font-size: 11px;">-2</div>
@@ -554,9 +554,9 @@
   </div>
   
   <div style="text-align: center;">
-    <button class="btn btn-primary" onclick="generateDemoDots()">🎲 生成演示数据</button>
-    <button class="btn btn-success" onclick="addDemoDot()">➕ 添加数据点</button>
-    <button class="btn btn-danger" onclick="clearDots()">🗑️ 清空</button>
+    <button class="btn btn-primary" onclick="generateDemoDots()">🎲 Generate Demo Data</button>
+    <button class="btn btn-success" onclick="addDemoDot()">➕ Add Data Point</button>
+    <button class="btn btn-danger" onclick="clearDots()">🗑️ Clear</button>
   </div>
 </div>
 
@@ -564,66 +564,66 @@
 <!-- SLIDE 12: 数据分析讨论 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🤔 分析与讨论</h2>
+  <h2>🤔 Analysis & Discussion</h2>
   
   <div class="card yellow" style="margin-bottom: 12px;">
-    <h3>Q1: 观察点图</h3>
-    <p style="font-size: 1em;">大多数数据点在 0 的哪一边？这说明了什么？</p>
+    <h3>Q1: Look at the dotplot</h3>
+    <p style="font-size: 1em;">On which side of 0 do most of the data points fall? What does that suggest?</p>
   </div>
   
   <div class="card blue" style="margin-bottom: 12px;">
-    <h3>Q2: 如果气候变化不存在...</h3>
-    <p style="font-size: 1em;">我们期望的平均差异（μ_d）应该等于多少？</p>
+    <h3>Q2: If climate change did not exist...</h3>
+    <p style="font-size: 1em;">What would we expect the mean difference (μ_d) to be?</p>
     <div class="code" style="text-align: center; font-size: 1em;">
-      H₀: μ_d = 0 &nbsp;&nbsp;(没有变化)<br>
-      Hₐ: μ_d > 0 &nbsp;&nbsp;(变暖了)
+      H₀: μ_d = 0 &nbsp;&nbsp;(No change)<br>
+      Hₐ: μ_d > 0 &nbsp;&nbsp;(The climate has warmed)
     </div>
   </div>
   
   <div class="card purple" style="margin-bottom: 12px;">
-    <h3>Q3: 我们的样本均值偏离 0 多远？</h3>
-    <p style="font-size: 1em;">均值 x̄ = <span id="discuss-mean">_____</span>，这个距离<strong>足够大</strong>来拒绝 H₀ 吗？</p>
+    <h3>Q3: How far is our sample mean from 0?</h3>
+    <p style="font-size: 1em;">均值 x̄ = <span id="discuss-mean">_____</span>，Is that distance <strong>large enough</strong> to reject H₀?</p>
   </div>
   
   <div class="card red">
-    <h3>Q4: 局限性</h3>
-    <p style="font-size: 1em;">我们的样本量足够吗？还有哪些因素可能影响结论？</p>
+    <h3>Q4: Limitations</h3>
+    <p style="font-size: 1em;">Is our sample size large enough? What other factors might affect our conclusion?</p>
   </div>
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 13: 🎮 小组挑战 - 设置 -->
+<!-- SLIDE 13: 🎮 Team Challenge - 设置 -->
 <!-- ============================================ -->
 <div class="slide center">
-  <h2>🎮 小组挑战 - Paired or Two-Sample?</h2>
-  <p style="margin-bottom: 25px;">输入你们的小组名称，开始答题挑战！</p>
+  <h2>🎮 Team Challenge - Paired or Two-Sample?</h2>
+  <p style="margin-bottom: 25px;">Enter your team names and start the challenge!</p>
   
   <div class="team-setup">
     <div class="team-input blue">
       <h3 style="color: #3b82f6;">🔵 Team A</h3>
-      <input type="text" id="team-a-name" placeholder="输入小组名称..." style="width: 100%; margin: 10px 0;">
+      <input type="text" id="team-a-name" placeholder="Enter team name..." style="width: 100%; margin: 10px 0;">
       <div class="score-display score-team-a" id="score-a-display">0</div>
-      <p style="color: #94a3b8; font-size: 0.85em;">当前得分</p>
+      <p style="color: #94a3b8; font-size: 0.85em;">Current score</p>
     </div>
     
     <div class="team-input red">
       <h3 style="color: #ef4444;">🔴 Team B</h3>
-      <input type="text" id="team-b-name" placeholder="输入小组名称..." style="width: 100%; margin: 10px 0;">
+      <input type="text" id="team-b-name" placeholder="Enter team name..." style="width: 100%; margin: 10px 0;">
       <div class="score-display score-team-b" id="score-b-display">0</div>
-      <p style="color: #94a3b8; font-size: 0.85em;">当前得分</p>
+      <p style="color: #94a3b8; font-size: 0.85em;">Current score</p>
     </div>
   </div>
   
-  <button class="btn btn-primary" onclick="startQuizGame()" style="font-size: 1.2em; padding: 15px 40px; margin-top: 20px;">🏁 开始挑战！</button>
+  <button class="btn btn-primary" onclick="startQuizGame()" style="font-size: 1.2em; padding: 15px 40px; margin-top: 20px;">🏁 Start Challenge!</button>
   
-  <p style="margin-top: 20px; color: #94a3b8;">共 6 道题，轮流答题，15秒倒计时</p>
+  <p style="margin-top: 20px; color: #94a3b8;">6 questions, alternating turns, with a 15-second timer</p>
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 14: 🎮 答题页面 -->
+<!-- SLIDE 14: 🎮 turn页面 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🎮 小组挑战</h2>
+  <h2>🎮 Team Challenge</h2>
   
   <div class="cards" style="margin-bottom: 15px;">
     <div class="card blue" style="text-align: center; flex: 1;">
@@ -649,19 +649,19 @@
   <div id="quiz-timer-display" class="timer-display" style="display: none;">15</div>
   
   <div style="text-align: center; margin-top: 15px;">
-    <button class="btn btn-primary" id="next-q-btn" onclick="nextQuizQuestion()" style="display: none;">下一题 →</button>
+    <button class="btn btn-primary" id="next-q-btn" onclick="nextQuizQuestion()" style="display: none;">Next Question →</button>
   </div>
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 15: 🏆 排行榜 & 正确率排名 -->
+<!-- SLIDE 15: 🏆 排行榜 & correct率排名 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🏆 最终排行榜 & 正确率排名</h2>
+  <h2>🏆 Final Leaderboard & Accuracy Ranking</h2>
   
   <div class="two-col">
     <div class="card">
-      <h3 style="color: #f59e0b;">🎮 挑战得分排行</h3>
+      <h3 style="color: #f59e0b;">🎮 Challenge Score Ranking</h3>
       <div id="leaderboard-list">
         <div class="leader-row">
           <span class="leader-rank">🥇</span>
@@ -676,18 +676,18 @@
           <span class="leader-accuracy" id="rank-2-acc">0%</span>
         </div>
       </div>
-      <p style="text-align: center; color: #94a3b8; margin-top: 15px; font-size: 0.9em;">正确率 = 答对题数 ÷ 答题总数 × 100%</p>
+      <p style="text-align: center; color: #94a3b8; margin-top: 15px; font-size: 0.9em;">correct率 = 答对题数 ÷ turn总数 × 100%</p>
     </div>
     
     <div class="card">
-      <h3 style="color: #10b981;">✅ 答题统计</h3>
+      <h3 style="color: #10b981;">✅ turn统计</h3>
       <div id="quiz-stats">
-        <p style="margin: 10px 0;"><span id="stats-team-a">Team A</span>: <span id="stats-a-correct">0</span> / <span id="stats-a-total">0</span> 正确</p>
-        <p style="margin: 10px 0;"><span id="stats-team-b">Team B</span>: <span id="stats-b-correct">0</span> / <span id="stats-b-total">0</span> 正确</p>
+        <p style="margin: 10px 0;"><span id="stats-team-a">Team A</span>: <span id="stats-a-correct">0</span> / <span id="stats-a-total">0</span> correct</p>
+        <p style="margin: 10px 0;"><span id="stats-team-b">Team B</span>: <span id="stats-b-correct">0</span> / <span id="stats-b-total">0</span> correct</p>
         <div class="progress-bar" style="margin-top: 15px;">
           <div class="progress-fill" id="accuracy-bar" style="width: 0%;"></div>
         </div>
-        <p style="text-align: center; margin-top: 10px;">平均正确率: <span id="avg-accuracy">0%</span></p>
+        <p style="text-align: center; margin-top: 10px;">平均correct率: <span id="avg-accuracy">0%</span></p>
       </div>
     </div>
   </div>
@@ -695,9 +695,9 @@
   <div class="card" style="margin-top: 20px; text-align: center;">
     <h2 style="color: #f59e0b;">🎉 获胜小组</h2>
     <div id="winner-display" style="font-size: 2em; margin: 20px 0; color: #fbbf24;">
-      等待挑战结果...
+      Waiting for results...
     </div>
-    <button class="btn btn-primary" onclick="resetQuiz()">🔄 重新挑战</button>
+    <button class="btn btn-primary" onclick="resetQuiz()">🔄 Restart Challenge</button>
   </div>
 </div>
 
@@ -705,37 +705,37 @@
 <!-- SLIDE 16: 今日要点 -->
 <!-- ============================================ -->
 <div class="slide">
-  <h2>🎯 今日要点</h2>
+  <h2>🎯 Key Takeaways</h2>
   
   <div class="cards">
     <div class="card green" style="text-align: center;">
       <div style="font-size: 2.5em;">✅</div>
-      <h3>随机抽样</h3>
-      <p style="font-size: 0.9em;">获取代表性数据的基础方法</p>
+      <h3>Random Sampling</h3>
+      <p style="font-size: 0.9em;">A foundational way to obtain representative data</p>
     </div>
     <div class="card blue" style="text-align: center;">
       <div style="font-size: 2.5em;">🔗</div>
       <h3>配对设计</h3>
-      <p style="font-size: 0.9em;">控制混淆变量，提高推断精度</p>
+      <p style="font-size: 0.9em;">Controls confounding variables and improves inference</p>
     </div>
     <div class="card yellow" style="text-align: center;">
       <div style="font-size: 2.5em;">📊</div>
-      <h3>可视化</h3>
-      <p style="font-size: 0.9em;">点图帮助发现数据的模式</p>
+      <h3>Visualization</h3>
+      <p style="font-size: 0.9em;">Dotplots help reveal patterns in data</p>
     </div>
     <div class="card red" style="text-align: center;">
       <div style="font-size: 2.5em;">⚠️</div>
       <h3>谨慎推断</h3>
-      <p style="font-size: 0.9em;">样本量、条件检查、局限性</p>
+      <p style="font-size: 0.9em;">Sample size, conditions, and limitations matter</p>
     </div>
   </div>
   
   <div class="highlight" style="margin-top: 20px;">
     <table>
-      <tr><th>判断依据</th><th>Paired t</th><th>Two-sample t</th></tr>
-      <tr><td>数据来源</td><td style="color: #10b981;">同一主体，两种条件</td><td style="color: #ef4444;">两个独立群体</td></tr>
-      <tr><td>关键词</td><td style="color: #10b981;">each, same, before/after</td><td style="color: #ef4444;">group A and group B</td></tr>
-      <tr><td>分析对象</td><td style="color: #10b981;">差异 d_i</td><td style="color: #ef4444;">x̄₁ − x̄₂</td></tr>
+      <tr><th>How to decide</th><th>Paired t</th><th>Two-sample t</th></tr>
+      <tr><td>Source of data</td><td style="color: #10b981;">Same subject, two conditions</td><td style="color: #ef4444;">Two independent groups</td></tr>
+      <tr><td>Key words</td><td style="color: #10b981;">each, same, before/after</td><td style="color: #ef4444;">group A and group B</td></tr>
+      <tr><td>What is analyzed</td><td style="color: #10b981;">差异 d_i</td><td style="color: #ef4444;">x̄₁ − x̄₂</td></tr>
     </table>
   </div>
 </div>
@@ -744,16 +744,16 @@
 <!-- SLIDE 17: 结论 -->
 <!-- ============================================ -->
 <div class="slide center">
-  <h2>🌍 那么... 气候变化是真的吗？</h2>
+  <h2>🌍 So... Is Climate Change Real?</h2>
   
   <div style="margin: 25px 0;">
     <div class="card" style="display: inline-block; padding: 25px 40px;">
-      <p style="font-size: 1.3em; color: #f59e0b;">根据我们今天的数据：</p>
+      <p style="font-size: 1.3em; color: #f59e0b;">Based on our data today:</p>
       <p style="font-size: 1.8em; margin-top: 12px;">
         Mean Difference = <span style="color: #ef4444;">+<span id="conclusion-mean">_____</span> °C</span>
       </p>
       <p style="font-size: 1.1em; margin-top: 10px; color: #94a3b8;">
-        大多数地点的温度在过去100年<strong style="color: #ef4444;">确实上升了</strong>
+        Temperatures at most locations over the past 100 years <strong style="color: #ef4444;">have increased</strong>
       </p>
     </div>
   </div>
@@ -775,7 +775,7 @@
 <div class="slide center" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);">
   <div class="big-emoji">🎉</div>
   <h1 class="gradient">Great Job Today!</h1>
-  <p class="subtitle" style="margin-top: 15px;">你们用统计学的力量探索了一个全球性问题</p>
+  <p class="subtitle" style="margin-top: 15px;">You used the power of statistics to explore a global question</p>
   
   <div style="margin: 30px 0;">
     <p style="font-size: 1.1em; color: #94a3b8;">
@@ -933,9 +933,9 @@ function renderPoll() {
 }
 
 async function vote(choice) {
-  if (!firebaseReady) return alert('Firebase 还没连上，请稍等 1-2 秒再试。');
+  if (!firebaseReady) return alert('Firebase is not connected yet. Please wait 1–2 seconds and try again.');
   if (localStorage.getItem(voteKey) === '1') {
-    return alert('这个设备已经投过票啦，每人一次～');
+    return alert('This device has already voted. One vote per person.');
   }
   const voterRef = doc(db, 'classrooms', CLASSROOM_ID, 'pollVoters', signedInUid);
   try {
@@ -964,10 +964,10 @@ async function vote(choice) {
     if (String(err.message || err).includes('ALREADY_VOTED')) {
       localStorage.setItem(voteKey, '1');
       document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-      return alert('这个账号/设备已经投过票啦，每人一次～');
+      return alert('This account/device has already voted. One vote per person.');
     }
     console.error(err);
-    return alert('投票失败，请稍后再试。');
+    return alert('Voting failed. Please try again later.');
   }
 }
 window.vote = vote;
@@ -977,7 +977,7 @@ async function resetPoll() {
   await setDoc(POLL_DOC, { up: 0, same: 0, down: 0, updatedAt: serverTimestamp() });
   localStorage.removeItem(voteKey);
   document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = false);
-  alert('当前只重置了票数显示。若要开始全新一轮，需要我再加“清空投票者记录”老师按钮。');
+  alert('This only resets the displayed poll totals. If you want a brand-new round, I can add a teacher button to clear voter records.');
 }
 window.resetPoll = resetPoll;
 
@@ -1024,7 +1024,7 @@ function addDataRow() {
 window.addDataRow = addDataRow;
 
 async function submitToClass() {
-  if (!firebaseReady) return alert('Firebase 还没连上。');
+  if (!firebaseReady) return alert('Firebase is not connected yet.');
   const teamName = (document.getElementById('team-a-name')?.value || '').trim();
   let submitted = 0;
   for (let row = 1; row <= dataRowCount; row++) {
@@ -1044,9 +1044,9 @@ async function submitToClass() {
     });
     submitted++;
   }
-  if (!submitted) return alert('请至少填写一行完整数据再提交。');
+  if (!submitted) return alert('Please complete at least one full row before submitting.');
   emojiRain('📤');
-  alert('已提交 ' + submitted + ' 条数据到全班实时数据库。');
+  alert('Submitted ' + submitted + ' row(s) to the live class database.');
 }
 window.submitToClass = submitToClass;
 
@@ -1054,16 +1054,16 @@ function renderClassSubmissionSummary(rows) {
   const box = document.getElementById('class-data');
   if (!box) return;
   if (!rows.length) {
-    box.innerHTML = '<p>提交数据后，班级数据将在这里显示</p>';
+    box.innerHTML = '<p>Class data will appear here after submissions are added.</p>';
     return;
   }
   const latest = rows.slice(0, 8).map(r => `<tr><td>${r.station || ''}</td><td>${r.temp1 ?? ''}</td><td>${r.temp2 ?? ''}</td><td style="color:${r.diff >= 0 ? '#ef4444' : '#3b82f6'}">${r.diff ?? ''}</td></tr>`).join('');
-  box.innerHTML = `<p style="margin-bottom:10px;color:#94a3b8;">全班已提交 ${rows.length} 条数据（显示最新 8 条）</p>
+  box.innerHTML = `<p style="margin-bottom:10px;color:#94a3b8;">全班Submitted ${rows.length} data points (showing the latest 8).</p>
   <table class="data-table"><thead><tr><th>Station</th><th>Temp₁</th><th>Temp₂</th><th>Diff</th></tr></thead><tbody>${latest}</tbody></table>`;
 }
 
 // ============================================
-// 🔬 点图可视化
+// 🔬 点图Visualization
 // ============================================
 let classData = [];
 
@@ -1126,7 +1126,7 @@ function generateDemoDots() {
 window.generateDemoDots = generateDemoDots;
 
 async function addDemoDot() {
-  if (!firebaseReady) return alert('Firebase 还没连上。');
+  if (!firebaseReady) return alert('Firebase is not connected yet.');
   const val = parseFloat((Math.random() * 2 - 0.5).toFixed(2));
   await addDoc(SUBMISSIONS, {
     station: 'Demo', temp1: 0, temp2: val, diff: val,
@@ -1137,21 +1137,21 @@ async function addDemoDot() {
 window.addDemoDot = addDemoDot;
 
 async function clearDots() {
-  alert('为避免误删全班数据，当前版本不提供一键清空数据库。需要的话我可以再加老师口令清空功能。');
+  alert('To avoid accidentally deleting class data, this version does not include one-click database clearing. I can add a teacher-only reset if you want.');
 }
 window.clearDots = clearDots;
 
 window.addEventListener('resize', () => { if (classData.length) renderDotplot(); });
 
 // ============================================
-// 🎮 小组挑战题目
+// 🎮 Team Challenge题目
 // ============================================
 const questions = [
-  { q: '30个成人，每人报告了家中邮箱的垃圾邮件数量和收件箱的垃圾邮件数量。研究者想知道两种垃圾邮件数量是否有显著差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一人报告了两种数据 → 数据天然成对。关键词：Each adult reported... as well as...' },
-  { q: '西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想比较两个地区的差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组完全独立的人 → 无配对关系。' },
+  { q: '30个成人，每人报告了家中邮箱的垃圾邮件数量和收件箱的垃圾邮件数量。研究者想知道两种垃圾邮件数量是否有显著差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一人报告了两种数据 → 数据天然成对。Key words：Each adult reported... as well as...' },
+  { q: '西海岸100人和东海岸100人，各自报告了一周内接到的垃圾电话数量。研究者想Compare两个地区的差异。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组完全独立的人 → 无配对关系。' },
   { q: '15部手机，在宾州和弗州两个偏远地区分别测量了信号强度。研究者想知道弗州信号是否更弱。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一批手机在两个地点分别测量 → 每部手机有一对数据。' },
-  { q: '在气候变化研究中，我们比较同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？', options: ['🔗 Paired data', '📊 Independent data'], answer: 0, explain: '✅ Paired! 同一地点，两个不同时期 → 配对设计控制地理因素。' },
-  { q: '一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末比较成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组不同的学生。' },
+  { q: '在气候变化研究中，我们Compare同一地点在 1900-1940 和 1960-2000 的温度。这是什么类型的数据？', options: ['🔗 Paired data', '📊 Independent data'], answer: 0, explain: '✅ Paired! 同一地点，两个不同时期 → 配对设计控制地理因素。' },
+  { q: '一项实验随机分配20名学生到A班用新教材，另外20名到B班用传统教材。期末Compare成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 1, explain: '✅ Two-sample! 两组不同的学生。' },
   { q: '10名运动员分别在早上和晚上跑100米，记录成绩。教练想知道时间段是否影响成绩。', options: ['🔗 Paired t-test', '📊 Two-sample t-test'], answer: 0, explain: '✅ Paired! 同一名运动员在两个时间段各跑一次。' }
 ];
 
@@ -1188,7 +1188,7 @@ function loadQuestion() {
   if (currentQ >= questions.length) return endQuiz();
   const q = questions[currentQ];
   const teamDisplay = currentTeam === 'A' ? '🔵 ' + teamAName : '🔴 ' + teamBName;
-  document.getElementById('quiz-number').textContent = 'Question ' + (currentQ + 1) + ' / ' + questions.length + '  |  ' + teamDisplay + ' 答题';
+  document.getElementById('quiz-number').textContent = 'Question ' + (currentQ + 1) + ' / ' + questions.length + '  |  ' + teamDisplay + ' turn';
   document.getElementById('quiz-question').textContent = q.q;
   document.getElementById('quiz-explanation').style.display = 'none';
   document.getElementById('next-q-btn').style.display = 'none';
@@ -1263,7 +1263,7 @@ function timeUp() {
   const q = questions[currentQ];
   document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
   document.querySelectorAll('.quiz-option')[q.answer].classList.add('correct');
-  document.getElementById('quiz-explanation').innerHTML = '⏰ 时间到！' + q.explain;
+  document.getElementById('quiz-explanation').innerHTML = '⏰ Time is up! ' + q.explain;
   document.getElementById('quiz-explanation').style.display = 'block';
   document.getElementById('next-q-btn').style.display = 'inline-block';
   if (currentTeam === 'A') teamAAttempts++; else teamBAttempts++;
@@ -1322,7 +1322,7 @@ async function endQuiz() {
   let winnerText;
   if (scoreA > scoreB) winnerText = '🏆 🔵 ' + teamAName + ' 获胜！';
   else if (scoreB > scoreA) winnerText = '🏆 🔴 ' + teamBName + ' 获胜！';
-  else winnerText = '🤝 平局！两个小组都很棒！';
+  else winnerText = '🤝 It’s a tie! Both teams did a great job!';
   document.getElementById('winner-display').innerHTML = winnerText;
 
   document.getElementById('quiz-card').innerHTML =
@@ -1330,7 +1330,7 @@ async function endQuiz() {
     '<div style="text-align:center; font-size:1.3em; margin:15px 0;">' +
     '🔵 ' + teamAName + ': ' + scoreA + ' 分 (' + accA + '%)<br>' +
     '🔴 ' + teamBName + ': ' + scoreB + ' 分 (' + accB + '%)</div>' +
-    '<p style="text-align:center;color:#94a3b8;">结果已自动同步到 Firebase 排行榜</p>';
+    '<p style="text-align:center;color:#94a3b8;">Results have been synced to the Firebase leaderboard</p>';
   document.getElementById('next-q-btn').style.display = 'none';
 
   await saveTeamResult(teamAName, scoreA, teamACorrect, teamAAttempts);
@@ -1362,7 +1362,7 @@ function resetQuiz() {
   document.getElementById('team-b-name').value = '';
   document.getElementById('score-a-display').textContent = '0';
   document.getElementById('score-b-display').textContent = '0';
-  document.getElementById('winner-display').textContent = '等待挑战结果...';
+  document.getElementById('winner-display').textContent = 'Waiting for results...';
 }
 window.resetQuiz = resetQuiz;
 
